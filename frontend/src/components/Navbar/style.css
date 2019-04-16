@@ -1,0 +1,23 @@
+.app > .nav {
+    background: rgba(1, 121, 111 , 1);
+    height: 6.5vh;
+    color: #fff;
+    letter-spacing: 1.5px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: minmax( 60px , 140px ) auto minmax( 60px , 300px )
+}
+
+.app > .nav  a  {
+    padding: 8px  12px;
+    border-bottom: 2px solid rgba(1, 121, 111 , 1);
+    text-align: center;
+}
+
+.app > .nav  a:hover{
+    border-bottom: 2px solid #fff;
+}
+
+.fa-code {
+    font-size: 32px;
+}
