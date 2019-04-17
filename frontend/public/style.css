@@ -27,10 +27,12 @@ a:hover {
 .field {
     width: 100%;
 }
+.w-40{
+    width: 40%;
+}
 
 /* Forms-related classes */
 .form {
-    max-width: 600px;
     width: 100%;
     background: rgba(255, 255, 255, 0.7);
     border-radius:  6px;

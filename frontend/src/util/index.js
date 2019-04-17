@@ -3,7 +3,6 @@ import React from 'react'
 export default (()=>({
     // routine that checks and identifies if a datatype has a value
     hasValue : function ( v ){
-        console.log( this )
         switch( Object.prototype.toString.call( v )){
             case '[object Array]':
             case '[object String]':
