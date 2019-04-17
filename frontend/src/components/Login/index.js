@@ -2,6 +2,7 @@ import React from 'react'
 import {  Field , reduxForm } from 'redux-form'
 import u from '../../util'
 import v from '../../util/validation'
+import './style.css'
 
 const Login = props => {
     const { handleSubmit } = props
@@ -10,8 +11,8 @@ const Login = props => {
     }
 
     return (
-        <div className="register d-flex justify-content-center align-items-center">
-                <div className="registration-form w-40">
+        <div className="login d-flex justify-content-center align-items-center">
+                <div className="login-form w-40">
                     <form className="form w-100" onSubmit={ handleSubmit( onSubmitForm) } noValidate>
                         <Field
                                 name="email"
