@@ -6,10 +6,10 @@ import './style.css'
 const input = ({ input , meta , label , placeholder , type , pattern }) => {
     const { name } = input
     const { touched , error } = meta
-    console.log(pattern)
+
     switch( touched ){
         case true:
-            const validFeedback = error ? <div class="invalid-feedback">{ error }</div> : ''
+            const validFeedback = error ? <div className="invalid-feedback">{ error }</div> : ''
             return (
                 <div className="form-group">
                     <label htmlFor={ name }>{ label }</label>
@@ -25,7 +25,6 @@ const input = ({ input , meta , label , placeholder , type , pattern }) => {
                     { validFeedback }
                 </div>
                 )
-            break;
         default:
             return (
                 <div className="form-group">
@@ -47,7 +46,7 @@ const input = ({ input , meta , label , placeholder , type , pattern }) => {
 const Register = props => {
     const { handleSubmit } = props
     const onSubmitForm = values => {
-        console.log( 'submitting form');
+        // backend functionality that runs with the API
     }
 
     return (
@@ -72,14 +71,14 @@ const Register = props => {
                                 type="password"
                                 component={ input }
                                 label="Password"
-                                pattern=".{8.,}"
+                                pattern=".{8,}"
                         />
                         <Field 
                                 name="confPassword"
                                 type="password"
                                 component={ input }
                                 label="Confirm Password"
-                                pattern=".{8.,}"
+                                pattern=".{8,}"
                         />
                         <div className="form-group">
                             <button type="submit" className="btn btn-info btn-block">Info</button>
@@ -94,6 +93,7 @@ const validate = values => {
     let errors = {}
     const k = Object.keys( values )
 
+    // identifies unfilled fields
     if( k.length !== 4){
         for( let v of ['username' , 'email' , 'password' , 'confPassword'] ){
             if( !util.hasValue( values[ v ] ) ){
@@ -101,15 +101,22 @@ const validate = values => {
             }
         }
     }
-    // console.log(values)
-    // Object.entries( values ).reduce( ( s , e )  => {
-    //         const [ k , v ] = e
-    //         // more complicated check
 
-    //         return s
+    // Compare Passwords functionality
+    ['password' , 'confPassword'].forEach(( v ,i , a ) => {
+        const p = values[v]
 
-    // },  errors )
-    console.log(errors)
+        if( !/.{8,}/.test( p )) errors[ v ] = 'Password should be more than 8 characters.'
+        switch( v ){
+            case 'password':
+                if( p !== values[a[i+1]])  errors[ v ] = 'Passwords do not match.'
+                break;
+            default:
+                if( p !== values[a[0]])  errors[ v ] = 'Passwords do not match.'
+                break;
+        }
+    })
+
     return errors
 }
 
