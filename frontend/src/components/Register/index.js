@@ -9,6 +9,7 @@ const input = ({ input , meta , label , placeholder , type , pattern }) => {
     console.log(pattern)
     switch( touched ){
         case true:
+            const validFeedback = error ? <div class="invalid-feedback">{ error }</div> : ''
             return (
                 <div className="form-group">
                     <label htmlFor={ name }>{ label }</label>
@@ -21,6 +22,7 @@ const input = ({ input , meta , label , placeholder , type , pattern }) => {
                         pattern={ `${ pattern ? pattern : null }`}
                         required
                     />
+                    { validFeedback }
                 </div>
                 )
             break;
