@@ -3,6 +3,7 @@ import React from 'react'
 export default (()=>({
     // routine that checks and identifies if a datatype has a value
     hasValue : function ( v ){
+        console.log( this )
         switch( Object.prototype.toString.call( v )){
             case '[object Array]':
             case '[object String]':
@@ -18,6 +19,7 @@ export default (()=>({
                 return null
         }
     },
+    // custom input that is used with reduxForm.
     customInput : ({ input , meta , label , placeholder , type , pattern }) => {
         const { name } = input
         const { touched , error } = meta
