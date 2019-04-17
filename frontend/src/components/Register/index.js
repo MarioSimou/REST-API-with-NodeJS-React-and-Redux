@@ -1,7 +1,7 @@
 import React from 'react'
 import {  Field , reduxForm } from 'redux-form'
 import u from '../../util'
-import v from '../../util/validation'
+import v from '../../util/validation/index'
 import './style.css'
 
 
@@ -43,7 +43,7 @@ const Register = props => {
                                 pattern=".{8,}"
                         />
                         <div className="form-group">
-                            <button type="submit" className="btn btn-info btn-block">Info</button>
+                            <button type="submit" className="btn btn-info btn-block">Submit</button>
                         </div>
                     </form>
                 </div>

@@ -29,7 +29,7 @@ const Login = props => {
                                 pattern=".{8,}"
                         />
                         <div className="form-group">
-                            <button type="submit" className="btn btn-info btn-block">Info</button>
+                            <button type="submit" className="btn btn-info btn-block">Submit</button>
                         </div>
                     </form>
                 </div>
