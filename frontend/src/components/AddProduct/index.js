@@ -17,7 +17,7 @@ const AddProduct = props => {
                 id="add-product-header"
             />
             <div className="container-fluid p-0 m-0 d-flex justify-content-center align-items-center" id="add-product-form-container">
-                <div className="container py-4">
+                <div className="container py-1">
                     <div className="add-product-form d-flex justify-content-center align-items-start">
                         <form className="form w-100" onSubmit={ handleSubmit( onSubmitForm ) } noValidate>
                             <Field
