@@ -3,6 +3,7 @@ import Header from '../Header'
 import u from '../../util'
 import v from '../../util/validation'
 import { Field, reduxForm  } from 'redux-form'
+import './style.css'
 
 const AddProduct = props => {
     const { handleSubmit } = props 
@@ -17,7 +18,7 @@ const AddProduct = props => {
             />
             <div className="container-fluid p-0 m-0 d-flex justify-content-center align-items-center" id="add-product-form-container">
                 <div className="container py-4">
-                    <div className="add-product-form">
+                    <div className="add-product-form d-flex justify-content-center align-items-start">
                         <form className="form w-100" onSubmit={ handleSubmit( onSubmitForm ) } noValidate>
                             <Field
                                 name="productName"

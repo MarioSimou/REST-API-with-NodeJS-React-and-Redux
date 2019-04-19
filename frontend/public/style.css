@@ -38,6 +38,7 @@ a:hover {
     background: rgba(255, 255, 255, 0.7);
     border-radius:  6px;
     padding: 20px;
+    max-width: 800px;
 }
 
 .form-group > label {
