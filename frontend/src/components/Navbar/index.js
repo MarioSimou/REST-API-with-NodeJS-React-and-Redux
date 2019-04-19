@@ -14,6 +14,9 @@ const Navbar = props => {
                 <div className="field">
                     <Link to="/">Home</Link>
                 </div>
+                <div className="field">
+                    <Link to="/products/new">Add Product</Link>
+                </div>
             </div>
             <div className="right d-flex justify-content-end align-items-center">
                 <div className="field">

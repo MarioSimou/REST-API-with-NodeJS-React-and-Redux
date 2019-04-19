@@ -21,7 +21,7 @@ const Login = props => {
                                 label="Email"
                                 placeholder="e.g name@gmail.com"
                                 />
-                        <Field 
+                    <Field 
                                 name="password"
                                 type="password"
                                 component={ u.customInput }

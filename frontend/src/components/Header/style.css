@@ -1,0 +1,23 @@
+
+#add-product {
+    min-height: 400px;
+    background: url('../../img/plant.jpeg') no-repeat center center fixed /cover; 
+}
+.header-container > * {
+    min-height: 400px;
+}
+
+.header-container > .content {
+    min-width: 1000px;
+}
+
+
+.btn-outline-info {
+    color: rgba( 1,  121 , 111, 1) !important;
+    border-color: rgba(1, 121, 111 , 1) !important;
+}
+.btn-outline-info:hover {
+    background-color: rgba( 1,  121 , 111, 1) !important;
+    border-color: rgba( 1,  121 , 111, 1) !important;
+    color: #fff !important;
+}
