@@ -1,3 +1,7 @@
+.app {
+    position: relative;
+}
+
 .app > .nav {
     background: rgba(1, 121, 111 , 1);
     height: 6.5vh;
@@ -5,7 +9,11 @@
     letter-spacing: 1.5px;
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: minmax( 60px , 140px ) auto minmax( 60px , 300px )
+    grid-template-columns: minmax( 60px , 140px ) auto minmax( 60px , 300px );
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 10;
 }
 
 .app > .nav  a  {

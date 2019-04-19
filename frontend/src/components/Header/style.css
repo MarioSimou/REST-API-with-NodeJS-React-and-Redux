@@ -1,7 +1,7 @@
 
-#add-product {
+#add-product-header{
     min-height: 400px;
-    background: url('../../img/plant.jpeg') no-repeat center center fixed /cover; 
+    background: url('../../img/plant.jpeg') no-repeat center center /cover; 
 }
 .header-container > * {
     min-height: 400px;
@@ -9,6 +9,10 @@
 
 .header-container > .content {
     min-width: 1000px;
+}
+
+#add-product-form-container {
+    min-height: 60vh;
 }
 
 

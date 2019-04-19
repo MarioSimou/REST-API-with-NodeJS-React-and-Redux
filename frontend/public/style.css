@@ -45,6 +45,7 @@ a:hover {
     color: rgba( 0 , 0 , 0 , 0.8 );
     letter-spacing: 2px;
 }
+.form-group > textarea:focus,
 .form-group > input:focus {
     box-shadow: 0 0 0 0.2rem rgba(1, 121, 111 , 0.25 );
     border-color: rgba(1, 121, 111 , 1 );
