@@ -2,11 +2,21 @@ import React from 'react'
 import Header from '../Header'
 import u from '../../util'
 import v from '../../util/validation'
-import { Field, reduxForm  } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import './style.css'
 
 const AddProduct = props => {
-    const { handleSubmit } = props 
+    const { handleSubmit } = props
+    const dropDownOptions = {
+        'Select a category' : '',
+        'Fashion': 'fashion',
+        'Electronics': 'electronics',
+        'Books': 'books',
+        'Home & Garden': 'homeGarden',
+        'Accessories': 'accessories',
+        'Furniture': 'furniture'
+    }
+
     const onSubmitForm = values => {
         console.log('submitting form')
     }
@@ -19,7 +29,7 @@ const AddProduct = props => {
             <div className="container-fluid p-0 m-0 d-flex justify-content-center align-items-center" id="add-product-form-container">
                 <div className="container py-1">
                     <div className="add-product-form d-flex justify-content-center align-items-start">
-                        <form className="form w-100" onSubmit={ handleSubmit( onSubmitForm ) } noValidate>
+                        <form className="form w-100" onSubmit={handleSubmit(onSubmitForm)} noValidate>
                             <Field
                                 name="productName"
                                 type="input"
@@ -41,11 +51,16 @@ const AddProduct = props => {
                                 component={u.customInput}
                             />
                             <Field
+                                name="productCategory"
+                                options={ dropDownOptions }
+                                component={u.customDropdown}
+                            />
+                            <Field
                                 name="productDesc"
                                 type="textarea"
                                 label="Product Description"
                                 placeholder="Give a brief description of the product..."
-                                component={ u.customInput}
+                                component={u.customInput}
                             />
                             <div className="form-group">
                                 <button type="submit" className="btn btn-info btn-block">Submit</button>
@@ -58,4 +73,4 @@ const AddProduct = props => {
     )
 }
 
-export default reduxForm({ form: 'add-product' , validate : v.validateAddProduct.bind( { _isItFilled : v._isItFilled } )  })(AddProduct)
+export default reduxForm({ form: 'add-product', validate: v.validateAddProduct.bind({ _isItFilled: v._isItFilled }) })(AddProduct)

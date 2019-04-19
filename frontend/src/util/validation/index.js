@@ -53,7 +53,7 @@ export default (() => ({
     },
     // validation method when a product is submitted to the database
     validateAddProduct: function (values) {
-        let errors = this._isItFilled(['productName', 'productPrice', 'productImage', 'productDesc'], values)
-        return errors
+        return this._isItFilled(['productName', 'productPrice', 'productImage', 'productCategory' , 'productDesc'], values)
+        
     }
 }))()

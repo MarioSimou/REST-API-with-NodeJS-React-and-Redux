@@ -97,5 +97,41 @@ export default (() => ({
                         )
                 }
         }
+    },
+    customDropdown: function ({ input, meta, options }) {
+        const { name } = input
+        const { touched, error } = meta
+        switch (touched) {
+            case true:
+                const invalidFeedback = error ? <div className="invalid-feedback">Please select a category</div> : ''
+                return (
+                    <div className="form-group">
+                        <select className={ `custom-select ${ error ? 'is-invalid' : 'is-valid' }`}
+                            {...input}
+                            name={name}
+                            id={name}
+                            required>
+                            {Object.entries(options).map(v => {
+                                return (<option key={v[1]} value={v[1]}>{v[0]}</option>)
+                            })}
+                        </select>
+                        {invalidFeedback}
+                    </div>
+                )
+            default:
+                return (
+                    <div className="form-group">
+                        <select className="custom-select"
+                            {...input}
+                            name={name}
+                            id={name}
+                            required>
+                            {Object.entries(options).map(v => {
+                                return (<option key={v[1]} value={v[1]}>{v[0]}</option>)
+                            })}
+                        </select>
+                    </div>
+                )
+        }
     }
 }))()
