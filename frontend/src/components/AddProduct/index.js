@@ -4,21 +4,35 @@ import u from '../../util'
 import v from '../../util/validation'
 import { Field, reduxForm } from 'redux-form'
 import './style.css'
+import qs from 'qs'
+import api from '../../config/api'
 
 const AddProduct = props => {
     const { handleSubmit } = props
     const dropDownOptions = {
         'Select a category' : '',
-        'Fashion': 'fashion',
-        'Electronics': 'electronics',
-        'Books': 'books',
-        'Home & Garden': 'homeGarden',
-        'Accessories': 'accessories',
-        'Furniture': 'furniture'
+        'Fashion': 'Fashion',
+        'Electronics': 'Electronics',
+        'Books': 'Books',
+        'Home & Garden': 'Home & Garden',
+        'Accessories': 'Accessories',
+        'Furniture': 'Furniture'
     }
 
-    const onSubmitForm = values => {
-        console.log('submitting form')
+    const onSubmitForm = async values => {
+        const { data : { statusCode , res , errors } } = await api.post( '/products' , qs.stringify( values ) )
+        console.log( statusCode )
+        console.log( res )
+        console.log('ERRORS:' , errors )
+        switch( statusCode ){
+            case 200:
+                // redirect user to home pacge
+                break
+            default:
+                // process error data
+                break
+            }
+        
     }
     return (
         <div className="add-product">

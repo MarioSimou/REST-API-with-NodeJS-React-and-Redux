@@ -27,10 +27,10 @@ ALTER TABLE users ALTER COLUMN created SET DEFAULT NOW();
 CREATE TABLE products(
     id INT GENERATED ALWAYS AS IDENTITY,
     name varchar(255),
-    price numeric( 7 , 2 ),
+    price numeric( 18 , 2 ),
     image varchar(1024),
-    description text,
-    category varchar(255)
+    category varchar(255),
+    description text
 );
 
 -- primary key constraint
