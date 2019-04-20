@@ -6,9 +6,10 @@ router.get('/' , async ( req , res ) => {
 })
 
 router.post('/products' , async ( req , res ) => {
-    const { name , price , image ,  category , description } = req.body
-
-    
+    console.log( req.body)
+    console.log('inside products route...');
+    // handle products data
+    res.json({ statusCode : 200 })
 })
 
 
