@@ -7,7 +7,7 @@ const Navbar = props => {
         <div className="nav">
             <div className="left d-flex justify-content-center align-items-center">
                 <div>
-                    <i className="fas fa-code"></i>
+                    <i className="fab fa-product-hunt"></i>
                 </div>
             </div>
             <div className="center d-flex justify-content-start align-items-center">

@@ -2,6 +2,7 @@ const Router = require('express-promise-router')
 const router = new Router()
 const { validationResult } = require('express-validator/check')
 const { validateAddProduct } = require('../util/validation')
+const { DatabaseError } = require('../models/Errors')
 
 router.get('/' , async ( req , res ) => {
     res.send('connected to api')
@@ -21,15 +22,15 @@ router.post('/products' , validateAddProduct , async ( req , res ) => {
                 // return a response
                 res.json({ statusCode : 200 , res : { content : 'The product has been successfully added.' , state: 'positive' }})
             } catch ( e ){
-                console.log( e.detail )
+                const error = new DatabaseError( e.detail )
                 // analyse errors
-                res.json({ statusCode : 500 , errors : { content: 'Uncaught 500 error' , state : 'negative'} })
+                res.json({ statusCode : 500 , error : error.render() } )
                 // res.json({ statusCode : 500 , errors : { message : e.detail } })
             }
             break;
         default:
             //  return an errors code
-            res.json({ statusCode: 400 , errors : { content : errors.array()[0].msg , state : 'negative' } })
+            res.json({ statusCode: 400 , error : { content : errors.array()[0].msg , state : 'negative' } })
             break;
     }
 })

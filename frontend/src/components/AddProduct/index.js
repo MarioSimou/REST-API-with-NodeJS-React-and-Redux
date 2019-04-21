@@ -26,10 +26,8 @@ const AddProduct = props => {
     }
 
     const onSubmitForm = async values => {
-        const { data: { statusCode, res, errors } } = await api.post('/products', qs.stringify(values))
-        console.log(statusCode)
-        console.log('ERRORS:', errors)
-        console.log('RES:' , res )
+        const { data: { statusCode, res, error } } = await api.post('/products', qs.stringify(values))
+
         switch (statusCode) {
             case 200:
                 // redirects to home page
@@ -40,14 +38,14 @@ const AddProduct = props => {
             case 400:
             case 500:
             // updates message 
-                props.updateMessage( errors )
+                props.updateMessage( error )
                 break;
             default:
                 // process error data
                 break
         }
-
     }
+
     return (
         <div className="add-product">
             { msgJSX }
