@@ -1,16 +1,22 @@
 import React from 'react'
-import Header from '../Header'
 import u from '../../util'
 import v from '../../util/validation'
 import { Field, reduxForm } from 'redux-form'
 import './style.css'
 import qs from 'qs'
 import api from '../../config/api'
+import { connect } from 'react-redux'
+import { updateMessage } from '../../actions'
+import history from '../../config/history'
+
+// components
+import Header from '../Header'
 
 const AddProduct = props => {
-    const { handleSubmit } = props
+    const { handleSubmit , message } = props
+    const msgJSX = u.renderMessage( message )
     const dropDownOptions = {
-        'Select a category' : '',
+        'Select a category': '',
         'Fashion': 'Fashion',
         'Electronics': 'Electronics',
         'Books': 'Books',
@@ -20,22 +26,31 @@ const AddProduct = props => {
     }
 
     const onSubmitForm = async values => {
-        const { data : { statusCode , res , errors } } = await api.post( '/products' , qs.stringify( values ) )
-        console.log( statusCode )
-        console.log( res )
-        console.log('ERRORS:' , errors )
-        switch( statusCode ){
+        const { data: { statusCode, res, errors } } = await api.post('/products', qs.stringify(values))
+        console.log(statusCode)
+        console.log('ERRORS:', errors)
+        console.log('RES:' , res )
+        switch (statusCode) {
             case 200:
-                // redirect user to home pacge
-                break
+                // redirects to home page
+                history.push('/')
+                // updates message 
+                props.updateMessage( res )
+                break;
+            case 400:
+            case 500:
+            // updates message 
+                props.updateMessage( errors )
+                break;
             default:
                 // process error data
                 break
-            }
-        
+        }
+
     }
     return (
         <div className="add-product">
+            { msgJSX }
             <Header title="Add Product"
                 content="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
                 id="add-product-header"
@@ -66,7 +81,7 @@ const AddProduct = props => {
                             />
                             <Field
                                 name="productCategory"
-                                options={ dropDownOptions }
+                                options={dropDownOptions}
                                 component={u.customDropdown}
                             />
                             <Field
@@ -87,4 +102,9 @@ const AddProduct = props => {
     )
 }
 
-export default reduxForm({ form: 'add-product', validate: v.validateAddProduct.bind({ _isItFilled: v._isItFilled }) })(AddProduct)
+
+const mapStateToProps = state => {
+    return { message : state.messageReducer }
+}
+
+export default connect(mapStateToProps, { updateMessage })(reduxForm({ form: 'add-product', validate: v.validateAddProduct.bind({ _isItFilled: v._isItFilled }) })(AddProduct))

@@ -1,11 +1,21 @@
 import React from 'react'
+import u from '../../util'
+import { connect } from 'react-redux'
+import { updateMessage } from '../../actions'
 
 const Home = props => {
+    const { message } = props
+    const msgJSX = u.renderMessage( message )
+    
     return (
         <div className="home">
-            Home
+            { msgJSX }
         </div>
     )
 }
 
-export default Home
+const mapStateToProps = state => {
+    return { message : state.messageReducer }
+}
+
+export default connect( mapStateToProps  , { updateMessage } )( Home )

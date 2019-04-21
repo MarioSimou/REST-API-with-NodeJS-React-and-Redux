@@ -1,4 +1,5 @@
 import React from 'react'
+import Message from '../components/Message'
 
 export default (() => ({
     // routine that checks and identifies if a datatype has a value
@@ -133,5 +134,8 @@ export default (() => ({
                     </div>
                 )
         }
+    },
+    renderMessage : ({ content , state } ) => {
+        return content && state  ? <Message content={ content } state={ state }  /> : <div></div> 
     }
 }))()

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
+import { messageReducer } from './messagesReducer'
 
-export default combineReducers({ start : ()=> 1  , form : formReducer })
+export default combineReducers({ messageReducer  , form : formReducer })

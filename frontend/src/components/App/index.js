@@ -1,5 +1,6 @@
 import React from 'react'
-import { Switch , BrowserRouter , Route } from 'react-router-dom'
+import { Switch , Router , Route } from 'react-router-dom'
+import history from '../../config/history'
 
 // components
 import Home from '../Home'
@@ -11,7 +12,7 @@ import AddProduct from '../AddProduct'
 const App = props => {
     return(
         <div className="app">
-            <BrowserRouter>
+            <Router history={ history } >
                 <Navbar />
                 <Switch>
                     <Route exact path="/" component={ Home } />
@@ -19,7 +20,7 @@ const App = props => {
                     <Route exact path="/register" component={ Register } />
                     <Route exact path="/products/new" component={  AddProduct } />
                 </Switch>
-            </BrowserRouter>
+            </Router>
         </div>
     )
 }

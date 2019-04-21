@@ -30,11 +30,14 @@ CREATE TABLE products(
     price numeric( 18 , 2 ),
     image varchar(1024),
     category varchar(255),
-    description text
+    description text,
+    creator INT
 );
 
 -- primary key constraint
 ALTER TABLE products ADD CONSTRAINT pk_products_id PRIMARY KEY( id );
+--fk
+ALTER TABLE products ADD CONSTRAINT fk_products_users FOREIGN KEY ( creator ) REFERENCES users( id );
 -- NOT NULL constraint
 ALTER TABLE products ALTER COLUMN name SET NOT NULL;
 ALTER TABLE products ALTER COLUMN image SET NOT NULL;
@@ -45,8 +48,7 @@ ALTER TABLE products ALTER COLUMN category SET NOT NULL;
 ALTER TABLE products ADD CONSTRAINT unique_products_name UNIQUE (name);
 ALTER TABLE products ADD CONSTRAINT unique_products_image UNIQUE (image);
 ALTER TABLE products ADD CONSTRAINT unique_products_description UNIQUE (description);
-ALTER TABLE products ADD CONSTRAINT unique_products_category UNIQUE (category);
-ALTER TABLE products ADD CONSTRAINT unique_products_all UNIQUE (name , image , price , description , category ); 
+33ALTER TABLE products ADD CONSTRAINT unique_products_all UNIQUE (name , image , price , description , category ); 
 
 -- check constraint
 ALTER TABLE products ADD CONSTRAINT price CHECK (price > 0 );
