@@ -3,7 +3,8 @@ const Router = require('express-promise-router'),
       { validationResult } = require('express-validator/check'),
       { ValidationError , DatabaseError } = require('../models/Errors'),
       { validateRegistration } = require('../util/validation'),
-      { hash , compare } = require('bcryptjs')
+      { hash , compare } = require('bcryptjs'),
+      jwt = require('jsonwebtoken')
 
 router.post('/register' ,  validateRegistration , async ( req , res ) => {
     const errors = validationResult( req )
@@ -24,8 +25,10 @@ router.post('/register' ,  validateRegistration , async ( req , res ) => {
                 const { rows } = await pg.query( s  , [ email ] )
                 // creates a cart to the user
                 await pg.query( c , [ rows[0].id ] )
+                // signs a jwt and returns it
+                const token = await jwt.sign( { id : rows[0].id } , process.env.JWT_PRIVATE_KEY )
                 // returned json
-                res.json({ statusCode : 200 , res : { content : `Welcome to our site`  , state : 'positive' }})
+                res.json({ statusCode : 200 , res : { content : `Welcome to our site`  , state : 'positive' } , token })
             } catch ( e ){
                 // return a validation error
                 res.json({ statusCode : 400 , error : DatabaseError.genDatabaseError( e ).render() } )

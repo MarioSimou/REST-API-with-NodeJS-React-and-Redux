@@ -15,11 +15,13 @@ const Register = ({ updateMessage , handleSubmit , message  }) => {
     const msgJSX = u.renderMessage( message )
     const onSubmitForm = async values => {
         // POST /register , Content-Type : x-www-form-urlencoded
-        const { data : { statusCode , res , error } } = await api.post( '/register' , qs.stringify( values ) )
+        const { data : { statusCode , res , error , token  } } = await api.post( '/register' , qs.stringify( values ) )
         
         // process response
         switch( +statusCode ){
             case 200:
+                // stores the token to localStorage
+                window.localStorage.setItem('token' , token )
                 // redirects the user to home page 
                 history.push('/' )
                 updateMessage( res )
