@@ -12,9 +12,9 @@ CREATE TABLE users(
 -- pk
 ALTER TABLE users ADD CONSTRAINT pk_users_id PRIMARY KEY (id);
 -- unique
-ALTER TABLE users ADD CONSTRAINT unique_username UNIQUE (username);
-ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE (email);
-ALTER TABLE Users ADD CONSTRAINT unique_username_email_password UNIQUE (username, email, password);
+ALTER TABLE users ADD CONSTRAINT unique_users_username UNIQUE (username);
+ALTER TABLE users ADD CONSTRAINT unique_users_email UNIQUE (email);
+ALTER TABLE users ADD CONSTRAINT unique_users_username_email_password UNIQUE (username, email, password);
 -- not null condition
 ALTER TABLE users ALTER COLUMN email SET NOT NULL;
 ALTER TABLE users ALTER COLUMN username SET NOT NULL;
@@ -31,7 +31,8 @@ CREATE TABLE products(
     image varchar(1024),
     category varchar(255),
     description text,
-    creator INT
+    creator INT,
+    created TIMESTAMP
 );
 
 -- primary key constraint
@@ -48,17 +49,19 @@ ALTER TABLE products ALTER COLUMN category SET NOT NULL;
 ALTER TABLE products ADD CONSTRAINT unique_products_name UNIQUE (name);
 ALTER TABLE products ADD CONSTRAINT unique_products_image UNIQUE (image);
 ALTER TABLE products ADD CONSTRAINT unique_products_description UNIQUE (description);
-33ALTER TABLE products ADD CONSTRAINT unique_products_all UNIQUE (name , image , price , description , category ); 
+ALTER TABLE products ADD CONSTRAINT unique_products_all UNIQUE (name , image , price , description , category ); 
 
 -- check constraint
 ALTER TABLE products ADD CONSTRAINT price CHECK (price > 0 );
 ALTER TABLE products ADD CONSTRAINT check_products_category CHECK ( category IN ('Fashion', 'Electronics' , 'Books' , 'Home & Garden' , 'Accessories' , 'Furniture' ));
-
+--default
+ALTER TABLE products ALTER COLUMN created SET DEFAULT NOW();
 
 -- carts
 CREATE TABLE carts (
     id INT GENERATED ALWAYS AS IDENTITY,
     userId INT
+    created TIMESTAMP
 );
 
 
@@ -68,6 +71,8 @@ ALTER TABLE carts ADD CONSTRAINT pk_carts_id PRIMARY KEY( id );
 ALTER TABLE carts ADD CONSTRAINT fk_carts_users FOREIGN KEY ( userId ) REFERENCES users( id );
 --unique 
 ALTER TABLE carts ADD CONSTRAINT unique_carts_userId UNIQUE( userId );
+-- default
+ALTER TABLE carts ALTER COLUMN created SET DEFAULT NOW()
 --index
 --CREATE INDEX carts_userId ON carts USING btree(userId);
 

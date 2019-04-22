@@ -2,6 +2,7 @@ const express = require('express')
       app = express(),
       port = process.env.PORT || 3001,
       mainRoutes = require('./controllers/main'),
+      authRouter = require('./controllers/auth'),
       { initPgConnection } = require('./util'),
       bodyParser = require('body-parser')
 
@@ -15,6 +16,7 @@ app.use( ( req , res , next ) => {
     next()
 })
 
+app.use('/' , authRouter )
 app.use('/', mainRoutes )
 
 

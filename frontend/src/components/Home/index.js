@@ -8,10 +8,13 @@ const Home = props => {
     const msgJSX = u.renderMessage( message )
     
     return (
-        <div className="home">
+        <React.Fragment>
             { msgJSX }
-        </div>
-    )
+            <div className="home">
+                Home page
+            </div>
+        </React.Fragment>
+        )
 }
 
 const mapStateToProps = state => {

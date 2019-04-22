@@ -22,18 +22,7 @@ router.post('/products' , validateAddProduct , async ( req , res ) => {
                 // return a response
                 res.json({ statusCode : 200 , res : { content : 'The product has been successfully added.' , state: 'positive' }})
             } catch ( e ){
-                let msg;
-                console.log( e )
-                // analyse errors
-                switch( +e.code ){
-                    case 23505:
-                        msg = `Duplcicate product ${ e.constraint.match(/(?<=unique_products_)(.*)/g)[0] }`    
-                        break;
-                    default:
-                        msg = `${ e.detail }`
-                }
-                res.json({ statusCode : 500 , error : new DatabaseError( msg ).render() } )
-
+                res.json({ statusCode : 500 , error : DatabaseError.genDatabaseError( e ).render() } )
             }
             break;
         default:
@@ -42,6 +31,5 @@ router.post('/products' , validateAddProduct , async ( req , res ) => {
             break;
     }
 })
-
 
 module.exports = router
