@@ -2,8 +2,8 @@ const Router = require('express-promise-router'),
       router = new Router(),
       { validationResult } = require('express-validator/check'),
       { ValidationError , DatabaseError } = require('../models/Errors'),
-      { validateRegistration } = require('../util/validation'),
-      { hash , compare } = require('bcryptjs'),
+      { validateRegistration , validateLogin } = require('../util/validation'),
+      { hash } = require('bcryptjs'),
       jwt = require('jsonwebtoken')
 
 router.post('/register' ,  validateRegistration , async ( req , res ) => {
@@ -41,8 +41,24 @@ router.post('/register' ,  validateRegistration , async ( req , res ) => {
     }
 })
 
-router.post('/login' , ( req , res ) => {
+router.post('/login' , validateLogin , async ( req , res ) => {
+    const errors = validationResult( req )
 
+    switch( errors.isEmpty() ){
+        case true:
+            try{
+                const user = req
+                const token = await jwt.sign( { id : user.id } , process.env.JWT_PRIVATE_KEY  )
+                
+                res.json({ statusCode : 200 , res : { content : `Welcome to our site`  , state : 'positive' } , token })
+            }catch( e ){
+                res.json({ statusCode : 400 , error : DatabaseError.genDatabaseError( e ).render() } )
+            }
+            break;
+        default:
+            res.json({ statusCode : 400 , error : new ValidationError( errors.array()[0].msg).render() })
+            break;
+    }
 })
 
 module.exports = router

@@ -2,16 +2,39 @@ import React from 'react'
 import {  Field , reduxForm } from 'redux-form'
 import u from '../../util'
 import v from '../../util/validation'
+import api from '../../config/api'
+import history from '../../config/history'
+import qs from 'qs'
+import { connect } from 'react-redux'
+import { updateMessage } from '../../actions'
 import './style.css'
 
-const Login = props => {
-    const { handleSubmit } = props
-    const onSubmitForm = values => {
-        // backend functionality that runs with the API
+const Login = ({ handleSubmit , updateMessage , message }) => {
+    const msgJSX = u.renderMessage( message )
+
+    const onSubmitForm = async values => {
+        // POST /register , Content-Type : x-www-form-urlencoded
+        const { data : { statusCode , res , error , token  } } = await api.post( '/login' , qs.stringify( values ) )
+        
+        // process response
+        switch( +statusCode ){
+            case 200:
+                // stores the token to localStorage
+                window.localStorage.setItem('token' , token )
+                // redirects the user to home page 
+                history.push('/' )
+                updateMessage( res )
+                break;
+            default:
+                updateMessage( error ) 
+                break;
+        }
     }
 
     return (
-        <div className="login d-flex justify-content-center align-items-center">
+        <React.Fragment>
+            { msgJSX }
+            <div className="login d-flex justify-content-center align-items-center">
                 <div className="login-form w-40">
                     <form className="form w-100" onSubmit={ handleSubmit( onSubmitForm) } noValidate>
                         <Field
@@ -34,7 +57,12 @@ const Login = props => {
                     </form>
                 </div>
             </div>
+        </React.Fragment>
     )
 }
 
-export default reduxForm(  { form : 'register' , validate : v.validateLogin  })( Login )
+const mapStateToProps = state => {
+    return { message : state.messageReducer }
+}
+
+export default connect( mapStateToProps , { updateMessage } )( reduxForm(  { form : 'register' , validate : v.validateLogin  })( Login ) )

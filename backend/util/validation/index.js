@@ -1,5 +1,7 @@
 const { body }  = require('express-validator/check')
 const u = require('../index')
+const { compare } = require('bcryptjs')
+
 // IIFE that contains the custom validation methods
 const n = (()=>({
     isEmpty : v => {
@@ -9,6 +11,21 @@ const n = (()=>({
     comparePassword : ( v , { req } ) => {
         const { password , confPassword } = req.body
         if (  password === confPassword ) return true
+        else throw new Error()
+    },
+    validateEmail : async ( email , { req }) => {
+        const q = 'SELECT id,email,password FROM users WHERE email = $1'
+        const { rows } = await process.pg.query( q , [ email ] )
+        const [ user ] = rows
+        if( user ){
+            req.user = user
+            return true
+        }else throw new Error()
+    },
+    validatePassword : async ( password , { req }) => {
+        const user = req.user
+        const isValid = await compare( password , user.password )
+        if( isValid ) return true
         else throw new Error()
     }
 }))()
@@ -57,5 +74,21 @@ module.exports = (() => ({
             .withMessage('Password should be more than 8 characters')
             .custom( n.comparePassword )
             .withMessage('Passwords do not match'),
+    ],
+    validateLogin : [
+        body('email')
+            .custom( n.isEmpty)
+            .withMessage('Fill the value to proceed')
+            .isEmail()
+            .withMessage('Invalid email address.')
+            .custom( n.validateEmail )
+            .withMessage('A user with that email address does not exist'),
+        body('password')
+            .custom( n.isEmpty)
+            .withMessage('Fill the value to proceed')
+            .isLength({ min: 8 })
+            .withMessage('Password should be more than 8 characters')
+            .custom( n.validatePassword)
+            .withMessage('Invalid password.')
     ]
 }))()

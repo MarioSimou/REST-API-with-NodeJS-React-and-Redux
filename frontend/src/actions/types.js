@@ -1,0 +1,3 @@
+const UPDATE_MESSAGE = 'UPDATE_MESSAGE'
+
+export { UPDATE_MESSAGE }
