@@ -5,4 +5,16 @@ const updateMessage = ({ content , state }) => ({
     payload : { content , state }
 })
 
-export { updateMessage }
+const userLogin =  ({ exp , id }) => {
+    console.log('Condition:' , Date.now() / 1000 < exp )
+    switch( Date.now() / 1000 < exp ){
+        case true:
+            console.log( 'inside')
+            console.log( id )
+            return { type : t.USER_LOGIN , payload : { id } }
+        default:
+            return { type : t.USER_LOGIN , payload : {} }
+    }
+}
+
+export { updateMessage , userLogin }

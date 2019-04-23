@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { useState , useEffect } from 'react'
 import { Switch , Router , Route } from 'react-router-dom'
 import history from '../../config/history'
 
@@ -9,7 +9,7 @@ import Navbar from '../Navbar'
 import Register from '../Register'
 import AddProduct from '../AddProduct'
 
-const App = props => {
+const App = props  => {
     return(
         <div className="app">
             <Router history={ history } >

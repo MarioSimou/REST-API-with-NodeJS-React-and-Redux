@@ -26,7 +26,7 @@ router.post('/register' ,  validateRegistration , async ( req , res ) => {
                 // creates a cart to the user
                 await pg.query( c , [ rows[0].id ] )
                 // signs a jwt and returns it
-                const token = await jwt.sign( { id : rows[0].id } , process.env.JWT_PRIVATE_KEY )
+                const token = await jwt.sign( { id : rows[0].id , exp : Math.floor(Date.now() / 1000) + (60 * 60) } , process.env.JWT_PRIVATE_KEY ) 
                 // returned json
                 res.json({ statusCode : 200 , res : { content : `Welcome to our site`  , state : 'positive' } , token })
             } catch ( e ){
@@ -47,9 +47,9 @@ router.post('/login' , validateLogin , async ( req , res ) => {
     switch( errors.isEmpty() ){
         case true:
             try{
-                const user = req
-                const token = await jwt.sign( { id : user.id } , process.env.JWT_PRIVATE_KEY  )
-                
+                const { user } = req
+                const token = await jwt.sign( { id : user.id , exp : Math.floor(Date.now() / 1000) + (60 * 60) } , process.env.JWT_PRIVATE_KEY )
+
                 res.json({ statusCode : 200 , res : { content : `Welcome to our site`  , state : 'positive' } , token })
             }catch( e ){
                 res.json({ statusCode : 400 , error : DatabaseError.genDatabaseError( e ).render() } )
