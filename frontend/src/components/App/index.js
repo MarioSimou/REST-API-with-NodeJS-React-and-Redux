@@ -12,7 +12,6 @@ import Register from '../Register'
 import AddProduct from '../AddProduct'
 
 const App = ({ userId  })  => {
-    console.log ('isloggedin:' , userId )
     return(
         <div className="app">
             <Router history={ history } >
