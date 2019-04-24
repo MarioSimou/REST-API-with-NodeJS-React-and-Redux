@@ -18,6 +18,10 @@ const Navbar = ({  userLogin , user : { id } }) => {
     //     //     userLogin( findPayload() )
     //     // }
     // })
+    console.log( id )
+    useEffect(() => {
+        console.log('use effectttt')
+    } , [ id ])
 
     const renderAuth = ( id ) => {
         switch( id ? true : false ){
