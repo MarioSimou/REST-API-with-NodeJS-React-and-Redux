@@ -1,34 +1,23 @@
-import React , { useState , useEffect } from 'react'
+import React , { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {  userLogin } from '../../actions'
+import {  userLogin , updateMessage } from '../../actions'
+import u from '../../util'
 import './style.css'
 
-const findPayload = () => {
-    const token = window.localStorage.getItem('token')
-    return token ? JSON.parse( atob( token.split('.')[1] ) ) : {}
-}
 
-
-const Navbar = ({  userLogin , user : { id } }) => {
-    // useEffect(() => {
-    //     console.log('id:' , id , '\tpayload' , findPayload().id )
-    //     // if( id !== findPayload().id ){
-    //     //     console.log('executed')
-    //     //     userLogin( findPayload() )
-    //     // }
-    // })
-    console.log( id )
-    useEffect(() => {
-        console.log('use effectttt')
-    } , [ id ])
+const Navbar = ({  userId  , userLogin , updateMessage }  ) => {
+    // checks if the user has a token and verifies it
+    useEffect( () =>  { userLogin( u.findPayload( window.localStorage.getItem('token')) )} , [])
 
     const renderAuth = ( id ) => {
         switch( id ? true : false ){
             case true:
                 return (
                     <div className="field">
-                        <Link to="/logout">Logout</Link>
+                        <Link to="#" 
+                              onClick={ () => u.logout( { userLogin , updateMessage } ) }
+                        >Logout</Link>
                     </div>
                 )
             default:
@@ -61,14 +50,14 @@ const Navbar = ({  userLogin , user : { id } }) => {
                 </div>
             </div>
             <div className="right d-flex justify-content-end align-items-center">
-               { renderAuth( id ) }
+               { renderAuth( userId ) }
             </div>
         </div>
     )
 }
 
 const mapStateToProps = state => {
-    return { user : state.authReducer }
+    return { userId : state.userStatus }
 }
 
-export default connect( mapStateToProps  , { userLogin })( Navbar )
+export default  connect( mapStateToProps  , { userLogin , updateMessage })( Navbar )

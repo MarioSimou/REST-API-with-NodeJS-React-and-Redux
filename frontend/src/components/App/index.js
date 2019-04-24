@@ -1,6 +1,8 @@
-import React , { useState , useEffect } from 'react'
+import React  from 'react'
 import { Switch , Router , Route } from 'react-router-dom'
 import history from '../../config/history'
+import { setUserStatus } from '../../actions'
+import { connect } from 'react-redux'
 
 // components
 import Home from '../Home'
@@ -9,7 +11,8 @@ import Navbar from '../Navbar'
 import Register from '../Register'
 import AddProduct from '../AddProduct'
 
-const App = props  => {
+const App = ({ userId  })  => {
+    console.log ('isloggedin:' , userId )
     return(
         <div className="app">
             <Router history={ history } >
@@ -25,4 +28,8 @@ const App = props  => {
     )
 }
 
-export default App
+const mapStateToProps = state => {
+    return {  userId : state.userStatus }
+}
+
+export default connect( mapStateToProps , {} )(App)

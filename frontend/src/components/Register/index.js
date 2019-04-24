@@ -6,11 +6,10 @@ import './style.css'
 import api from '../../config/api'
 import qs from 'qs'
 import history from '../../config/history'
-import { updateMessage } from '../../actions'
+import { updateMessage , userLogin  } from '../../actions'
 import { connect } from 'react-redux'
 
-
-const Register = ({ updateMessage , handleSubmit , message  }) => {
+const Register = ({ updateMessage , handleSubmit , message , userLogin }) => {
     // routine that decides if an error/success message will be shown
     const msgJSX = u.renderMessage( message )
     const onSubmitForm = async values => {
@@ -22,6 +21,9 @@ const Register = ({ updateMessage , handleSubmit , message  }) => {
             case 200:
                 // stores the token to localStorage
                 window.localStorage.setItem('token' , token )
+                // dispatch a login action
+                userLogin( u.findPayload( token ) )
+
                 // redirects the user to home page 
                 history.push('/' )
                 updateMessage( res )
@@ -43,6 +45,7 @@ const Register = ({ updateMessage , handleSubmit , message  }) => {
                                component={ u.customInput } 
                                label="Username"
                                placeholder="username"
+                               autocomplete="username"
                                />
                         <Field
                                 name="email"
@@ -50,6 +53,7 @@ const Register = ({ updateMessage , handleSubmit , message  }) => {
                                 component={ u.customInput }
                                 label="Email"
                                 placeholder="e.g name@gmail.com"
+                                autocomplete="email"
                                 />
                         <Field 
                                 name="password"
@@ -57,6 +61,7 @@ const Register = ({ updateMessage , handleSubmit , message  }) => {
                                 component={ u.customInput }
                                 label="Password"
                                 pattern=".{8,}"
+                                autocomplete="new password"
                         />
                         <Field 
                                 name="confPassword"
@@ -64,6 +69,7 @@ const Register = ({ updateMessage , handleSubmit , message  }) => {
                                 component={ u.customInput }
                                 label="Confirm Password"
                                 pattern=".{8,}"
+                                autocomplete="new password"
                         />
                         <div className="form-group">
                             <button type="submit" className="btn btn-info btn-block">Submit</button>
@@ -80,4 +86,4 @@ const mapStateToProps = state => {
     return { message : state.messageReducer }
 }
 
-export default connect( mapStateToProps , { updateMessage } )( reduxForm(  { form : 'register' , validate : v.validateRegistration  })(Register ) )
+export default connect( mapStateToProps , { updateMessage  , userLogin } )( reduxForm(  { form : 'register' , validate : v.validateRegistration  })(Register ) )

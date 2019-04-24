@@ -20,7 +20,7 @@ export default (() => ({
         }
     },
     // custom input that is used with reduxForm.
-    customInput: ({ input, meta, label, placeholder, type, pattern }) => {
+    customInput: ({ input, meta, label, placeholder, type, pattern , autocomplete }) => {
         const { name } = input
         const { touched, error } = meta
 
@@ -40,6 +40,7 @@ export default (() => ({
                                     name={name}
                                     rows="4"
                                     placeholder={placeholder}
+                                    autoComplete={ autocomplete }
                                     required
                                 >
                                 </textarea>
@@ -57,6 +58,7 @@ export default (() => ({
                                     className={`form-control ${error ? 'is-invalid' : 'is-valid'}`}
                                     placeholder={`${placeholder ? placeholder : ''} `}
                                     pattern={`${pattern ? pattern : null}`}
+                                    autoComplete={ autocomplete }
                                     required
                                 />
                                 {validFeedback}
@@ -76,6 +78,7 @@ export default (() => ({
                                     name={name}
                                     rows="4"
                                     placeholder={placeholder}
+                                    autoComplete={ autocomplete }
                                     required
                                 >
                                 </textarea>
@@ -92,6 +95,7 @@ export default (() => ({
                                     className="form-control"
                                     placeholder={`${placeholder ? placeholder : ''} `}
                                     pattern={`${pattern ? pattern : null}`}
+                                    autoComplete={ autocomplete }
                                     required
                                 />
                             </div>
@@ -137,5 +141,16 @@ export default (() => ({
     },
     renderMessage : ({ content , state } ) => {
         return content && state  ? <Message content={ content } state={ state }  /> : <div></div> 
+    },
+    // finds the payload of a given token 
+    findPayload : token  => {
+        return token ? JSON.parse( atob( token.split('.')[1] ) ) : {}
+    },
+    // logout a user from the system
+    logout : ({ userLogin , updateMessage }) => {
+        // resets the token
+        userLogin({})
+        updateMessage({ content : 'You have successfully log out' , state : 'positive' })
+        window.localStorage.removeItem('token')
     }
 }))()

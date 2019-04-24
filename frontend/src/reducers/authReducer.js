@@ -1,12 +1,13 @@
 import * as t from '../actions/types'
 
-const authReducer = ( state = {} , action ) => {
-    switch( action.type ){
+const userStatus = ( state = null , action ) => {
+    switch( action.type){
         case t.USER_LOGIN:
-            return { ...state , ...action.payload }
+            console.log('inside 3')
+            return action.payload.id
         default:
             return state
     }
 }
 
-export { authReducer }
+export { userStatus }
