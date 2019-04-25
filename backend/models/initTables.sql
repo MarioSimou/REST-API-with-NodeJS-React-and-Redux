@@ -110,4 +110,4 @@ JOIN products p
 ON cp.productId = p.id;
 
 CREATE VIEW products_view AS
-SELECT p.id product_id, p.name product_name, p.price price, p.category category, p.description description, u.id user_id, u.email email, u.username username FROM products p JOIN users u ON p.creator = u.id;
+SELECT p.id product_id, p.name product_name, p.price price, p.image product_image ,p.category category, p.description description, u.id user_id, u.email email, u.username username FROM products p JOIN users u ON p.creator = u.id;
