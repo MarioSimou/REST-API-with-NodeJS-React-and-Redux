@@ -1,4 +1,5 @@
 import * as t from './types'
+import api from '../config/api'
 
 const updateMessage = ({ content , state }) => ({
     type: t.UPDATE_MESSAGE,
@@ -12,5 +13,14 @@ const userLogin =  ({ exp , id }) => {
     }
 }
 
+const fetchProducts = () => async function( dispatch ){
+        const { data : { res } } = await api.get('/products' )
 
-export { updateMessage , userLogin  }
+        dispatch({
+            type: t.FETCH_PRODUCTS,
+            payload: { products : res }
+        })
+}
+
+
+export { updateMessage , userLogin , fetchProducts }

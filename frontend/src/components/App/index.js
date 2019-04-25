@@ -1,7 +1,6 @@
 import React  from 'react'
 import { Switch , Router , Route } from 'react-router-dom'
 import history from '../../config/history'
-import { setUserStatus } from '../../actions'
 import { connect } from 'react-redux'
 
 // components

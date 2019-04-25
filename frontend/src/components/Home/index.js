@@ -1,12 +1,15 @@
-import React from 'react'
+import React , { useEffect } from 'react'
 import u from '../../util'
 import { connect } from 'react-redux'
-import { updateMessage } from '../../actions'
-
-const Home = props => {
-    const { message } = props
+import { updateMessage , fetchProducts } from '../../actions'
+const Home = ({ message , fetchProducts , products }) => {
     const msgJSX = u.renderMessage( message )
     
+    // effect hook- behaves like componentDidMount method 
+    useEffect(  () => {
+        fetchProducts()
+    }, [])
+
     return (
         <React.Fragment>
             { msgJSX }
@@ -18,7 +21,7 @@ const Home = props => {
 }
 
 const mapStateToProps = state => {
-    return { message : state.messageReducer }
+    return { message : state.messageReducer , products : state.requestsReducer }
 }
 
-export default connect( mapStateToProps  , { updateMessage } )( Home )
+export default connect( mapStateToProps  , { updateMessage , fetchProducts } )( Home )

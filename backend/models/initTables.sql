@@ -45,6 +45,8 @@ ALTER TABLE products ALTER COLUMN image SET NOT NULL;
 ALTER TABLE products ALTER COLUMN price SET NOT NULL;
 ALTER TABLE products ALTER COLUMN description SET NOT NULL;
 ALTER TABLE products ALTER COLUMN category SET NOT NULL;
+ALTER TABLE products ALTER COLUMN creator SET NOT NULL;
+ALTER TABLE products ALTER COLUMN created SET NOT NULL;
 -- unique constraint
 ALTER TABLE products ADD CONSTRAINT unique_products_name UNIQUE (name);
 ALTER TABLE products ADD CONSTRAINT unique_products_image UNIQUE (image);
@@ -60,7 +62,7 @@ ALTER TABLE products ALTER COLUMN created SET DEFAULT NOW();
 -- carts
 CREATE TABLE carts (
     id INT GENERATED ALWAYS AS IDENTITY,
-    userId INT
+    userId INT,
     created TIMESTAMP
 );
 
@@ -72,7 +74,7 @@ ALTER TABLE carts ADD CONSTRAINT fk_carts_users FOREIGN KEY ( userId ) REFERENCE
 --unique 
 ALTER TABLE carts ADD CONSTRAINT unique_carts_userId UNIQUE( userId );
 -- default
-ALTER TABLE carts ALTER COLUMN created SET DEFAULT NOW()
+ALTER TABLE carts ALTER COLUMN created SET DEFAULT NOW();
 --index
 --CREATE INDEX carts_userId ON carts USING btree(userId);
 
@@ -106,3 +108,6 @@ JOIN carts_products cp
 ON c.id = cp.cartId
 JOIN products p
 ON cp.productId = p.id;
+
+CREATE VIEW products_view AS
+SELECT p.id product_id, p.name product_name, p.price price, p.category category, p.description description, u.id user_id, u.email email, u.username username FROM products p JOIN users u ON p.creator = u.id;

@@ -8,6 +8,18 @@ router.get('/' , async ( req , res ) => {
     res.send('connected to api')
 })
 
+router.get('/products' , async ( req , res ) => {
+    try{
+        const { pg } = process
+        const { rows } = await pg.query('SELECT * FROM products_view')
+        res.json({ statusCode : 200 , res : rows.reduce( ( a , v ) =>  ({ ...a , [v.product_id]:v }) , {} ) })
+
+    } catch {
+        res.json({ statusCode : 500 , error : DatabaseError.genDatabaseError( e ).render() } )
+    }
+
+})
+
 router.post('/products' , validateAddProduct , async ( req , res ) => {
     const errors = validationResult( req )
 
@@ -16,7 +28,7 @@ router.post('/products' , validateAddProduct , async ( req , res ) => {
             try {
                 const { pg } = process
                 // store data to db
-                const q = 'INSERT INTO products( name , price , image , category , description ) VALUES ( $1 , $2 , $3 , $4 , $5 )'
+                const q = 'INSERT INTO products( name , price , image , category , description , creator ) VALUES ( $1 , $2 , $3 , $4 , $5 , $6 )'
                 await pg.query( q , Object.values(req.body));
                 // 23505 - error
                 // return a response

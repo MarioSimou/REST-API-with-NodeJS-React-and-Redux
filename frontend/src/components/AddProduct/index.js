@@ -12,8 +12,7 @@ import history from '../../config/history'
 // components
 import Header from '../Header'
 
-const AddProduct = props => {
-    const { handleSubmit , message } = props
+const AddProduct = ({ handleSubmit , message , updateMessage , userId }) => {
     const msgJSX = u.renderMessage( message )
     const dropDownOptions = {
         'Select a category': '',
@@ -26,20 +25,24 @@ const AddProduct = props => {
     }
 
     const onSubmitForm = async values => {
+        if( !userId ){
+            updateMessage( { content : 'Login so we identify your identity.' , state : 'negative' } )
+            return
+        }
         // POST /products , Content-Type: x-www-form-urlencoded
-        const { data: { statusCode, res, error } } = await api.post('/products', qs.stringify(values))
+        const { data: { statusCode, res, error } } = await api.post('/products', qs.stringify( { ...values , id : userId ,  }))
 
         // process the response
-        switch (statusCode) {
+        switch ( statusCode) {
             case 200:
                 // redirects to home page
                 history.push('/')
                 // updates message 
-                props.updateMessage( res )
+                updateMessage( res )
                 break;
             default:
                 // updates message 
-                props.updateMessage( error )
+                updateMessage( error )
                 break;
         }
     }
@@ -102,7 +105,7 @@ const AddProduct = props => {
 
 
 const mapStateToProps = state => {
-    return { message : state.messageReducer }
+    return { message : state.messageReducer , userId : state.userStatus}
 }
 
 export default connect(mapStateToProps, { updateMessage })(reduxForm({ form: 'add-product', validate: v.validateAddProduct.bind({ _isItFilled: v._isItFilled }) })(AddProduct))
