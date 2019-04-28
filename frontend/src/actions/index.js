@@ -22,6 +22,14 @@ const fetchProducts = () => async function( dispatch ){
         })
 }
 
+const fetchProduct = productId => async dispatch => {
+    const { data : { res:product } } = await api.get( `/products/${productId}` )
+    dispatch({
+        type: t.FETCH_PRODUCT,
+        payload : { product }
+    })
+}
+
 const deleteProduct = productId => async ( dispatch , getState ) => {
     const { requestsReducer:p } = getState()
     const products = Object.values( p ).filter( v => v.product_id !== +productId ).reduce(( a , s ) => ({ ...a , [s.product_id]:s }) , {} )
@@ -29,11 +37,11 @@ const deleteProduct = productId => async ( dispatch , getState ) => {
     await api.delete( `/products/${ productId }`) 
     
     dispatch({
-        type : 'DELETE_PRODUCT',
+        type : t.DELETE_PRODUCT,
         payload : { products }
     })
 
 }
 
 
-export { updateMessage , userLogin , fetchProducts , deleteProduct }
+export { updateMessage , userLogin , fetchProducts , fetchProduct , deleteProduct }

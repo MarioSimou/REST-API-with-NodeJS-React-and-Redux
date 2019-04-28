@@ -64,3 +64,6 @@ a:hover {
     margin-bottom: 0px;
 }
 
+ul li {
+    list-style: none;
+}

@@ -2,6 +2,7 @@ import React , { useEffect } from 'react'
 import u from '../../util'
 import { connect } from 'react-redux'
 import { updateMessage , fetchProducts , deleteProduct } from '../../actions'
+import { Link } from 'react-router-dom'
 
 const Home = ({ message , fetchProducts , deleteProduct , products , userId }) => {
     const msgJSX = u.renderMessage( message )
@@ -11,17 +12,21 @@ const Home = ({ message , fetchProducts , deleteProduct , products , userId }) =
         fetchProducts()
     }, [])
 
+    // routine that decides which buttons will be rendered. This is decided by the login status
     const renderAuthButtons = ( s , { product_id , user_id } ) =>{
         switch( s === user_id ? true : false ){
             case true: 
                 return (
                    <div>
-                        <a href={ `/products/${ product_id }` } className="mr-2 btn btn-outline-success" >
-                        View
-                        </a>
-                        <a href={ `/products/${ product_id }/edit` } className="mr-2 btn btn-outline-warning" >
+                        <Link to={ `/products/${ product_id }` }
+                              className="mr-2 btn btn-outline-success" >
+                            View
+                        </Link>
+                        <Link to={ `/products/${ product_id }/edit` }
+                              className="mr-2 btn btn-outline-warning"
+                        >
                             Edit
-                        </a>
+                        </Link>
                         <button  className="btn btn-outline-danger"
                                  data-id={ product_id }
                                  onClick={ e => deleteProduct( e.target.dataset.id ) }
@@ -41,6 +46,7 @@ const Home = ({ message , fetchProducts , deleteProduct , products , userId }) =
         }
     }
 
+    // rendering
     switch( Object.values( products).length > 0 ? true : false ){
         case true:
         return (

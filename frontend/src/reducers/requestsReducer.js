@@ -6,6 +6,9 @@ const requestsReducer = (state = {}, action) => {
             return { ...state, ...action.payload.products }
         case t.DELETE_PRODUCT:
             return { ...action.payload.products }
+        case t.FETCH_PRODUCT:
+            const { product } = action.payload
+            return { ...state , [product.product_id]:product }
         default:
             return state
     }

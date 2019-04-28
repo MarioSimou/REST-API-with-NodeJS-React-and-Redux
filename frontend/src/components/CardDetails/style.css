@@ -1,0 +1,61 @@
+.container {
+    margin-top: 20px;
+    padding: 0;
+    border-radius: 6px;
+    border: solid 1px rgba(1, 121, 111 , 0.5);
+}
+.container > .body ul li {
+    border-left: 3px solid transparent;
+    position: relative;
+}
+.container > .body ul li div:first-child {
+    padding-left: 10px; 
+    letter-spacing: 1.5px;
+}
+.container > .body ul li div:first-child::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f107";
+    font-size: 1.25rem;
+    font-weight: 900;
+    padding-right: 4px;
+    color: rgba(1, 121, 111 , 1);
+}
+.div-active::before {
+    content: "\f106" !important;
+}
+
+.container > .body ul li div:last-child {
+    margin: 10px 0 10px 20px;
+    font-style: italic;
+    letter-spacing: 1.5px;
+    /* border-left: 2px solid rgba(1, 121, 111 , 1); */
+    padding: 4px 10px;
+}
+
+
+.container > .body ul li:hover div:first-child{
+    border-left: 6px solid rgba(1, 121, 111 , 1);
+    background-color: rgba(1, 121, 111 , 0.2 );
+    cursor: pointer;
+}
+
+.container > .body {
+    padding: 20px 20px 0 20px;
+}
+
+.container > .header > img {
+    width: 100%;
+    height: 100%;
+    max-width: 1200px;
+}
+
+.container > .footer {
+    padding: 0px 20px 20px 20px;
+}
+
+.hide {
+    visibility: none;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+}
