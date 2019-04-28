@@ -54,6 +54,5 @@ export default (() => ({
     // validation method when a product is submitted to the database
     validateAddProduct: function (values) {
         return this._isItFilled(['productName', 'productPrice', 'productImage', 'productCategory' , 'productDesc'], values)
-        
     }
 }))()

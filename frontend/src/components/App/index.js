@@ -10,6 +10,7 @@ import Navbar from '../Navbar'
 import Register from '../Register'
 import AddProduct from '../AddProduct'
 import ProductDetails from '../ProductDetails'
+import EditProduct from '../EditProduct'
 
 const App = ({ userId  })  => {
     return(
@@ -21,6 +22,7 @@ const App = ({ userId  })  => {
                     <Route exact path="/login" component={ Login } />
                     <Route exact path="/register" component={ Register } />
                     <Route exact path="/products/new" component={  AddProduct } />
+                    <Route exact path="/products/:id/edit" component={  EditProduct } />
                     <Route exact path="/products/:id" component={ ProductDetails } />
                 </Switch>
             </Router>
