@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './style.css'
 
-const CardDetails = ({ product : { category , description , price , product_image , product_name , username  } }) => {
+const CardDetails = ({ product : { category , description , price , product_image , product_name , email  } }) => {
 
     const toggleDetailsClass = e => {
         let { target } = e
@@ -42,7 +42,7 @@ const CardDetails = ({ product : { category , description , price , product_imag
                         </li>
                         <li onClick={ e => toggleDetailsClass( e )}>
                             <div>Added by</div>
-                            <div className={ `info hide` }>{ username }</div>    
+                            <div className={ `info hide` }>{ email }</div>    
                         </li>
                         <li onClick={ e => toggleDetailsClass( e )}>
                             <div>Description</div>

@@ -1,41 +1,22 @@
 import React from 'react'
 import u from '../../util'
 import './style.css'
-import qs from 'qs'
-import api from '../../config/api'
 import { connect } from 'react-redux'
-import { updateMessage } from '../../actions'
-import history from '../../config/history'
-
+import { updateMessage , addProduct } from '../../actions'
 // components
 import Header from '../Header'
 import ProductForm from '../ProductForm'
 
-const AddProduct = ({  message , updateMessage , userId }) => {
+const AddProduct = ({  message , updateMessage , addProduct , userId }) => {
     const msgJSX = u.renderMessage( message )
     
     const onSubmitFormCall = async values => {
-        console.log(values )
         if( !userId ){
             updateMessage( { content : 'Login so we identify your identity.' , state : 'negative' } )
             return
         }
-        // POST /products , Content-Type: x-www-form-urlencoded
-        const { data: { statusCode, res, error } } = await api.post('/products', qs.stringify( { ...values , id : userId ,  }))
-
-        // process the response
-        switch ( statusCode) {
-            case 200:
-                // redirects to home page
-                history.push('/')
-                // updates message 
-                updateMessage( res )
-                break;
-            default:
-                // updates message 
-                updateMessage( error )
-                break;
-        }
+        // adding product
+        addProduct( { ...values , id : userId }  )
     }
 
     return (
@@ -65,4 +46,4 @@ const mapStateToProps = state => {
     return { message : state.messageReducer , userId : state.userStatus}
 }
 
-export default connect(mapStateToProps, { updateMessage })(AddProduct)
+export default connect(mapStateToProps, { updateMessage , addProduct })(AddProduct)

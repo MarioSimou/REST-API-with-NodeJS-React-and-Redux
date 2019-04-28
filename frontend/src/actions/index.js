@@ -1,5 +1,7 @@
 import * as t from './types'
 import api from '../config/api'
+import qs from 'qs'
+import history from '../config/history'
 
 const updateMessage = ({ content , state }) => ({
     type: t.UPDATE_MESSAGE,
@@ -40,8 +42,59 @@ const deleteProduct = productId => async ( dispatch , getState ) => {
         type : t.DELETE_PRODUCT,
         payload : { products }
     })
+}
 
+const addProduct = inProduct => async dispatch => {
+        // POST /products , Content-Type: x-www-form-urlencoded
+        const { data: { statusCode, res, error } } = await api.post('/products', qs.stringify( inProduct ))
+        // GET /products/name/prdouctName 
+        const { data : { res:product  }} =  await api.get(`/products/name/${ inProduct.productName}` )
+        
+        await dispatch({
+            type : t.ADD_PRODUCT,
+            payload: { product }
+        })
+
+        // process the response
+        switch ( statusCode) {
+            case 200:
+                // redirects to home page
+                history.push('/')
+                // updates message 
+                updateMessage( res )
+                break;
+            default:
+                // updates message 
+                updateMessage( error )
+                break;
+        }
+}
+
+const editProduct = ( id , inProduct ) => async dispatch => {
+    // PUT /products/productId , Content-Type: x-www-form-urlencoded
+    const { data: { statusCode, res, error } } = await api.put(`/products/${ id }`, qs.stringify( inProduct ))
+    // GET /products/name/prdouctName 
+    const { data : { res:product  }} =  await api.get(`/products/name/${ inProduct.productName}` )
+    
+    await dispatch({
+        type : t.EDIT_PRODUCT,
+        payload: { product }
+    })
+
+    // process the response
+    switch ( statusCode) {
+        case 200:
+            // redirects to home page
+            history.push('/')
+            // updates message 
+            updateMessage( res )
+            break;
+        default:
+            // updates message 
+            updateMessage( error )
+            break;
+    }
 }
 
 
-export { updateMessage , userLogin , fetchProducts , fetchProduct , deleteProduct }
+export { updateMessage , userLogin , fetchProducts , fetchProduct , deleteProduct , addProduct ,editProduct }

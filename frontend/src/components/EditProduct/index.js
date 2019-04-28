@@ -1,17 +1,14 @@
 import React , { useEffect } from 'react'
 import u from '../../util'
 import './style.css'
-import qs from 'qs'
-import api from '../../config/api'
 import { connect } from 'react-redux'
-import { updateMessage , fetchProduct } from '../../actions'
-import history from '../../config/history'
+import { updateMessage , fetchProduct , editProduct } from '../../actions'
 
 // components
 import Header from '../Header'
 import ProductForm from '../ProductForm'
 
-const EditProduct = ({  match , message , updateMessage , userId , fetchProduct , product }) => {
+const EditProduct = ({  match , message , updateMessage , editProduct , userId , fetchProduct , product }) => {
     const msgJSX = u.renderMessage( message )
     const { id } = match.params
     const { category , description , price , product_image , product_name } = product
@@ -28,22 +25,23 @@ const EditProduct = ({  match , message , updateMessage , userId , fetchProduct 
             updateMessage( { content : 'Login so we identify your identity.' , state : 'negative' } )
             return
         }
-        // PUT /products/productId , Content-Type: x-www-form-urlencoded
-        const { data: { statusCode, res, error } } = await api.put(`/products/${ id }`, qs.stringify( { ...values , id : userId  }))
-
-        // process the response
-        switch ( statusCode) {
-            case 200:
-                // redirects to home page
-                history.push('/')
-                // updates message 
-                updateMessage( res )
-                break;
-            default:
-                // updates message 
-                updateMessage( error )
-                break;
-        }
+        // edit product
+        editProduct( id , { ...values , id : userId }  )
+        // // PUT /products/productId , Content-Type: x-www-form-urlencoded
+        // const { data: { statusCode, res, error } } = await api.put(`/products/${ id }`, qs.stringify( { ...values , id : userId  }))
+        
+        // // process the response
+        // switch ( statusCode) {
+        //     case 200:
+        //         // redirects to home page
+        //         history.push('/')
+        //         // updates message 
+        //         updateMessage( res )
+        //         break;
+        //     default:
+        //         // updates message 
+        //         updateMessage( error )
+        //         break;
     }
     
     useEffect( ()=> { fetchProduct( id ) }, [ id ] )
@@ -77,4 +75,4 @@ const mapStateToProps = ( state , prevProps ) => {
     return { product : products && Object.values( products ).length > 0 ? products[id] : {} , message : state.messageReducer , userId : state.userStatus }
 }
 
-export default connect(mapStateToProps, { updateMessage , fetchProduct })(EditProduct)
+export default connect(mapStateToProps, { updateMessage , editProduct , fetchProduct })(EditProduct)

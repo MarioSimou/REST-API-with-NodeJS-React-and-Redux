@@ -45,16 +45,31 @@ router.post('/products' , validateAddProduct , async ( req , res ) => {
     }
 })
 
-router.get('/products/:productId' , async ( req , res ) => {
+// GET /products/name/book 
+router.get('/products/name/:productName' , async ( req , res ) => {
     try{
-        const { productId } = req.params
-        const { rows } =  await process.pg.query('SELECT * FROM products_view WHERE product_id = $1' , [ productId ])
+        const { productName } = req.params
+        const { rows } =  await process.pg.query('SELECT * FROM products_view WHERE product_name = $1' , [ productName ])
         res.json({ statusCode : 200 , res : rows[0] })
     } catch( e ){
         console.log( e )
         res.json({ statusCode : 500 , error : DatabaseError.genDatabaseError( e ).render() } )
     }
 })
+
+router.get('/products/:productId' , async ( req , res ) => {
+    try{
+        const { productId } = req.params
+        const { rows } =  await process.pg.query('SELECT * FROM products_view WHERE product_id = $1' , [ productId ])
+        console.log( rows )
+        res.json({ statusCode : 200 , res : rows[0] })
+    } catch( e ){
+        console.log( e )
+        res.json({ statusCode : 500 , error : DatabaseError.genDatabaseError( e ).render() } )
+    }
+})
+
+
 
 router.put('/products/:productId' , validateAddProduct , async ( req , res ) => {
     const errors = validationResult( req )
