@@ -45,9 +45,9 @@ const Navbar = ({  userId  , userLogin , updateMessage }  ) => {
                 <div className="field">
                     <Link to="/">Home</Link>
                 </div>
-                <div className="field">
-                    <Link to="/products/new">Add Product</Link>
-                </div>
+                { 
+                    userId &&  <div className="field"><Link to="/products/new">Add Product</Link></div>
+                }
             </div>
             <div className="right d-flex justify-content-end align-items-center">
                { renderAuth( userId ) }

@@ -44,4 +44,17 @@ router.post('/products' , validateAddProduct , async ( req , res ) => {
     }
 })
 
+router.delete('/products/:productId' , async ( req, res ) => {
+    try{
+        const { productId } = req.params
+        console.log( productId )
+        await process.pg.query('DELETE FROM products WHERE id = $1' , [ productId ])
+
+        res.json({ statusCode : 200 , res : { content : 'The product has been successfully deleted.' , state: 'positive' }})
+    } catch( e ){
+        console.log( e )
+        res.json({ statusCode : 500 , error : DatabaseError.genDatabaseError( e ).render() } )
+    }
+})
+
 module.exports = router

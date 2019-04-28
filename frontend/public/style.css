@@ -57,6 +57,10 @@ a:hover {
     background: rgba(1, 121, 111 , 1) !important;
     color: #fff;
 }
+.text-info {
+    color: rgba(1, 121, 111 , 1) !important;
+}
 .alert {
     margin-bottom: 0px;
 }
+

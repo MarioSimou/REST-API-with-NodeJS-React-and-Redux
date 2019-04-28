@@ -152,31 +152,5 @@ export default (() => ({
         userLogin({})
         updateMessage({ content : 'You have successfully log out' , state : 'positive' })
         window.localStorage.removeItem('token')
-    },
-    renderAuthButtons : ( s , { product_id , user_id } ) => {
-        switch( s === user_id ? true : false ){
-            case true: 
-                return (
-                   <div>
-                        <a href={ `/products/${ product_id }` } className="mr-2 btn btn-outline-success" >
-                        View
-                        </a>
-                        <a href={ `/products/${ product_id }/edit` } className="mr-2 btn btn-outline-warning" >
-                            Edit
-                        </a>
-                        <a href="#" className="btn btn-outline-danger" >
-                            Delete
-                        </a>
-                   </div>
-                )
-            default: 
-                return (
-                    <div>
-                        <a href={ `/products/${ product_id }` } className="mr-2 btn btn-outline-success" >
-                        View
-                        </a>
-                    </div>
-                )
-        }
     }
 }))()

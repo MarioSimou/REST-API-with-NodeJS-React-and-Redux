@@ -1,9 +1,9 @@
 import React , { useEffect } from 'react'
 import u from '../../util'
 import { connect } from 'react-redux'
-import { updateMessage , fetchProducts } from '../../actions'
+import { updateMessage , fetchProducts , deleteProduct } from '../../actions'
 
-const Home = ({ message , fetchProducts , products , userId }) => {
+const Home = ({ message , fetchProducts , deleteProduct , products , userId }) => {
     const msgJSX = u.renderMessage( message )
     
     // effect hook- behaves like componentDidMount method 
@@ -11,6 +11,35 @@ const Home = ({ message , fetchProducts , products , userId }) => {
         fetchProducts()
     }, [])
 
+    const renderAuthButtons = ( s , { product_id , user_id } ) =>{
+        switch( s === user_id ? true : false ){
+            case true: 
+                return (
+                   <div>
+                        <a href={ `/products/${ product_id }` } className="mr-2 btn btn-outline-success" >
+                        View
+                        </a>
+                        <a href={ `/products/${ product_id }/edit` } className="mr-2 btn btn-outline-warning" >
+                            Edit
+                        </a>
+                        <button  className="btn btn-outline-danger"
+                                 data-id={ product_id }
+                                 onClick={ e => deleteProduct( e.target.dataset.id ) }
+                        >
+                            Delete
+                        </button>
+                   </div>
+                )
+            default: 
+                return (
+                    <div>
+                        <a href={ `/products/${ product_id }` } className="mr-2 btn btn-outline-success" >
+                        View
+                        </a>
+                    </div>
+                )
+        }
+    }
 
     switch( Object.values( products).length > 0 ? true : false ){
         case true:
@@ -21,8 +50,6 @@ const Home = ({ message , fetchProducts , products , userId }) => {
                     <div className="container-fluid p-2">
                         <div className="row">
                             { Object.values( products ).map( p => {
-                                console.log( p )
-
                                 return (
                                     <div className="col-12 col-md-6 col-lg-4" key={ p.product_id } >
                                         <div className="card">
@@ -31,7 +58,7 @@ const Home = ({ message , fetchProducts , products , userId }) => {
                                                 <h5 className="card-title">{ p.product_name }</h5>
                                                 <h6 className="card-subtitle mb-2 text-muted">{ p.email }</h6>
                                                 <p className="card-text">{ p.description }</p>
-                                                { u.renderAuthButtons( userId , p ) }
+                                                { renderAuthButtons( userId , p ) }
                                             </div>
                                         </div>
                                     </div>
@@ -44,8 +71,8 @@ const Home = ({ message , fetchProducts , products , userId }) => {
             )
         default:
             return (
-                <div className="text-center">
-                    <div className="spinner-border m-5" role="status">
+                <div className="text-center loader d-flex justify-content-center align-items-center" style={{ minHeight : '93.5vh' }}>
+                    <div className="spinner-grow text-info" role="status" style={{ height : '4em' , width: '4em' }} >
                         <span className="sr-only">Loading...</span>
                     </div>
                 </div>
@@ -57,4 +84,4 @@ const mapStateToProps = state => {
     return { message : state.messageReducer , products : state.requestsReducer , userId : state.userStatus }
 }
 
-export default connect( mapStateToProps  , { updateMessage , fetchProducts } )( Home )
+export default connect( mapStateToProps  , { updateMessage , fetchProducts , deleteProduct } )( Home )
