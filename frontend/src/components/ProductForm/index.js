@@ -2,7 +2,7 @@ import React from 'react'
 import u from '../../util'
 import v from '../../util/validation'
 import { Field, reduxForm } from 'redux-form'
-
+import history from '../../config/history'
 
 const ProductForm = ({ handleSubmit, onSubmitFormCall , id }) => {
     const dropDownOptions = {
@@ -58,6 +58,7 @@ const ProductForm = ({ handleSubmit, onSubmitFormCall , id }) => {
                 />
                 <div className="form-group">
                     <button type="submit" className="btn btn-info btn-block">Submit</button>
+                    <button type="button" onClick={ e => history.goBack() } className="btn btn-danger btn-block">Cancel</button>
                 </div>
             </form>
         </div>
